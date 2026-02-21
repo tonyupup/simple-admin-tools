@@ -11,14 +11,12 @@ import (
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
 	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
-	"go.opentelemetry.io/otel/exporters/zipkin"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
 const (
-	kindZipkin   = "zipkin"
 	kindOtlpGrpc = "otlpgrpc"
 	kindOtlpHttp = "otlphttp"
 	kindFile     = "file"
@@ -59,8 +57,6 @@ func StopAgent() {
 
 func createExporter(c Config) (sdktrace.SpanExporter, error) {
 	switch c.Batcher {
-	case kindZipkin:
-		return zipkin.New(c.Endpoint)
 	case kindOtlpGrpc:
 		// Always treat trace exporter as optional component, so we use nonblock here,
 		// otherwise this would slow down app start up even set a dial timeout here when

@@ -62,11 +62,7 @@ func Load(file string, v any, opts ...Option) error {
 		return loader([]byte(os.ExpandEnv(string(content))), v)
 	}
 
-	if err = loader(content, v); err != nil {
-		return err
-	}
-
-	return validate(v)
+	return loader(content, v)
 }
 
 // LoadFromJsonBytes loads config into v from content json bytes.

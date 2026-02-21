@@ -26,11 +26,6 @@ func TestStartAgent(t *testing.T) {
 	c1 := Config{
 		Name: "foo",
 	}
-	c2 := Config{
-		Name:     "any",
-		Endpoint: endpoint2,
-		Batcher:  kindZipkin,
-	}
 	c3 := Config{
 		Name:     "bla",
 		Endpoint: endpoint3,
@@ -66,7 +61,6 @@ func TestStartAgent(t *testing.T) {
 
 	StartAgent(c1)
 	StartAgent(c1)
-	StartAgent(c2)
 	StartAgent(c3)
 	StartAgent(c4)
 	StartAgent(c5)
@@ -145,15 +139,6 @@ func TestCreateExporter_ValidExporters(t *testing.T) {
 			},
 			wantErr: true,
 			errMsg:  "unknown exporter",
-		},
-		{
-			name: "zipkin",
-			config: Config{
-				Name:     "zipkin",
-				Endpoint: "http://localhost:9411/api/v2/spans",
-				Batcher:  kindZipkin,
-			},
-			wantErr: false,
 		},
 		{
 			name: "otlpgrpc",
