@@ -37,10 +37,6 @@ var (
 
 // Parse parses the request.
 func Parse(r *http.Request, v any, isValidate bool) error {
-	if err := ParseJsonBody(r, v); err != nil {
-		return errorx.NewCodeInvalidArgumentError(err.Error())
-	}
-
 	kind := mapping.Deref(reflect.TypeOf(v)).Kind()
 	if kind != reflect.Array && kind != reflect.Slice {
 		if err := ParsePath(r, v); err != nil {
@@ -54,6 +50,10 @@ func Parse(r *http.Request, v any, isValidate bool) error {
 		if err := ParseHeaders(r, v); err != nil {
 			return err
 		}
+	}
+
+	if err := ParseJsonBody(r, v); err != nil {
+		return errorx.NewCodeInvalidArgumentError(err.Error())
 	}
 
 	if isValidate {
